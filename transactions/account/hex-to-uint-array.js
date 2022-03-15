@@ -1,0 +1,4 @@
+const fromHexString = hexString =>
+  new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+
+console.log(JSON.stringify(Object.values(fromHexString(process.argv[2]))))
