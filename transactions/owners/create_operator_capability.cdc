@@ -3,7 +3,6 @@ import Owners from "../../contracts/Owners.cdc"
 
 /// token admin signs this transaction to deposit a capability
 /// into a operator's account that allows them to mint nft
-/// and entend the expiry time of an existing NFT
 
 transaction(operatorAddress: Address) {
 

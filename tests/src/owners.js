@@ -200,15 +200,3 @@ export const getOwnersCount = async (account) => {
 
   return executeScript({ name, args });
 };
-
-export const extendNftExpiryTime = async (nftOwner, itemID) => {
-  const admin = await getOwnersAdminAddress();
-
-  const name = 'owners/extend_expiry_time';
-  const args = [nftOwner, itemID];
-
-  const signers = [admin];
-
-  return sendTransaction({ name, args, signers });
-};
-

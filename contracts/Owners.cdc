@@ -115,7 +115,6 @@ pub contract Owners: NonFungibleToken {
 
         // borrowOwners
         // Gets a reference to an NFT in the collection as a Owners,
-        // exposing all of its fields (including the twitterID & expiry time).
         // This is safe as there are no functions that can be called on the Owners.
         //
         pub fun borrowOwners(id: UInt64): &Owners.NFT? {

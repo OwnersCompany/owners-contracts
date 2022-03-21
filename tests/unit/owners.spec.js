@@ -5,6 +5,7 @@ import {
   init, shallPass, shallResolve, shallRevert, shallThrow } from 'flow-js-testing';
 import {
   deployOwners,
+  getOwners,
   getOwnersCount,
   getOwnersSupply,
   mintOwners,
@@ -28,7 +29,6 @@ describe('Owners contract', () => {
     const port = 7070;
     // Setting logging flag to true will pipe emulator output to console
     const logging = false;
-
     await init(basePath, { port });
 
     return emulator.start(port, logging);
@@ -62,7 +62,9 @@ describe('Owners contract', () => {
     await setupOwnersOnAccount(Alice);
 
     // Mint instruction for Alice account shall be resolved
-    await shallPass(mintOwners(Alice, 123456));
+    await shallPass(mintOwners(Alice, '123456'));
+    const owners = await getOwners(Alice, 0);
+    expect(owners[0].twitterID).toEqual(123456);
   });
 
   it('shall be able to create a new empty NFT Collection', async () => {
@@ -98,7 +100,7 @@ describe('Owners contract', () => {
     await setupOwnersOnAccount(Bob);
 
     // Mint instruction for Alice account shall be resolved
-    await shallPass(mintOwners(Alice, 123456));
+    await shallPass(mintOwners(Alice, '123456'));
 
     // Transfer transaction shall pass
     await shallPass(transferOwners(Alice, Bob, 0));
@@ -110,9 +112,12 @@ describe('Owners contract', () => {
     await setupOwnersOnAccount(AdminAccount);
     const Operator = await getOwnersOperatorAddress();
     await shallPass(setupOwnersOperator(Operator));
-    await await shallPass(setOperatorCapability(Operator));
+    await shallPass(setOperatorCapability(Operator));
 
-    await shallPass(mintOwnersByOperator(AdminAccount, 123456));
+    await shallPass(mintOwnersByOperator(AdminAccount, '123456'));
+
+    const owners = await getOwners(AdminAccount, 0);
+    expect(owners[0].twitterID).toEqual(123456);
   });
 
   it('shall be able to transfer NFT from admin account by operator account', async () => {
@@ -122,7 +127,7 @@ describe('Owners contract', () => {
     const Operator = await getOwnersOperatorAddress();
     await shallPass(setupOwnersOperator(Operator));
     await shallPass(setOperatorCapability(Operator));
-    await shallPass(mintOwnersByOperator(AdminAccount, 123456));
+    await shallPass(mintOwnersByOperator(AdminAccount, '123456'));
 
     const Alice = await getAccountAddress('Alice');
     await setupOwnersOnAccount(Alice);
@@ -141,7 +146,7 @@ describe('Owners contract', () => {
     const Alice = await getAccountAddress('Alice');
     await setupOwnersOnAccount(Alice);
 
-    await shallThrow(mintOwnersByOperator(Alice, 123456));
+    await shallThrow(mintOwnersByOperator(Alice, '123456'));
   });
 
   it('shall be able to revoke transfer from admin capability', async () => {
@@ -151,7 +156,7 @@ describe('Owners contract', () => {
     const Operator = await getOwnersOperatorAddress();
     await shallPass(setupOwnersOperator(Operator));
     await shallPass(setOperatorCapability(Operator));
-    await shallPass(mintOwnersByOperator(AdminAccount, 123456));
+    await shallPass(mintOwnersByOperator(AdminAccount, '123456'));
     await shallPass(revokeTransferCapability());
 
     const Alice = await getAccountAddress('Alice');
