@@ -1,4 +1,4 @@
-import NonFungibleToken from "./NonFungibleToken.cdc"
+import NonFungibleToken from 0x1d7e57aa55817448
 
 // Owners NFT
 //
@@ -20,7 +20,7 @@ pub contract Owners: NonFungibleToken {
     pub let OperatorPublicPath: PublicPath
 
     // totalSupply
-    // The total number of Twitter Account NFT that have been minted
+    // The total number of Owners NFTs that have been minted
     //
     pub var totalSupply: UInt64
 
@@ -167,7 +167,7 @@ pub contract Owners: NonFungibleToken {
     pub resource interface NFTOperatorPublic {
         // give the operator ability to mint new NFT
         pub fun addMinterCapability(cap: Capability<&NFTMinter>)
-        // give the operator abililty to transfer NFT from admin wallet
+        // give the operator ability to transfer NFT from admin wallet
         pub fun addTransferCapability(cap: Capability<&{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>)
     }
 
