@@ -51,11 +51,7 @@ transaction(recipient: Address, twitterID: String) {
             ?? panic("Could not get receiver reference to the NFT Collection")
 
         // mint the NFT and deposit it to the recipient's collection
-<<<<<<< Updated upstream
         self.minter.mintNFT(recipient: receiver, twitterID: self.twitterIdNumber)
-=======
-        self.minter.mintNFT(recipient: receiver, twitterID: UInt64(twitterID))
->>>>>>> Stashed changes
     }
 }
  
